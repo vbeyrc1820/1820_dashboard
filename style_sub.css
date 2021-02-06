@@ -1,0 +1,14 @@
+body {background-color:#333;}
+
+#timedate {
+  font-size: 15px;
+  text-align:left;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color:#fff;
+  border-left: 3px solid #ed1f24;
+  height: 80px;
+  padding: 10px;
+}

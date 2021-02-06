@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vargi-Bots</title>
+<link href="style_sub.css" rel="stylesheet" type="text/css"/>    
+</head>
+<header>
+    <center>
+        <div id="eyantraLogo">
+            <!-- eyantra logo -->
+            <img src="https://eyic.e-yantra.org/img/eYantra_logo_whitetext.png" alt="e_yantra_logo" width="290" height="60"><br>
+        </div>
+    </center>
+</header>
+
+
+<div id="timedate">
+    <a id="mon">January</a>
+    <a id="d">1</a>,
+    <a id="y">0</a><br />
+    <a id="h">12</a> :
+    <a id="m">00</a>:
+    <a id="s">00</a>:
+    <a id="mi">000</a>
+</div id="timedate">
+
+
+
+<body onLoad="initClock()">
+    <center><h2 style="color:#ed1f24">#1820 Dashboard Data Sheet</h2></center>
+        <hr style="height:4px;border-width:0;color:gray;background-color:gray">
+   	
+           
+        
+        
+  <style>
+      body {background-color:#333;}
+      #table1 tr:hover {background-color: #ed1f24;}
+      #table1 th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #ed1f24;
+        color: white;
+        }       
+  </style>
+        
+        
+        
+        
+        
+        
+        
+        <center><table id="table1" border='1'>
+            <tr>
+                <th>Order ID</th>
+                <th>Item</th>
+                <th>Priority</th>
+                <th>City</th>
+                <th>Dispatched</th>
+                <th>Shipped</th>
+                <th>Order Date and Time</th>
+                <th>Dispatch Date and Time</th>
+                <th>Shipping Date and Time</th>
+                <th>Time Taken s</th>
+            </tr>
+            <tbody id="tableContent">
+            </tbody>
+        </table></center>
+
+        <hr style="height:4px;border-width:0;color:gray;background-color:gray">
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+    /////////////Ajax Requests////////////
+    $(document).ready(function() {
+        // Fetch the initial table
+        refreshTable();
+    
+        // Fetch every 0.2 second
+        setInterval(refreshTable, 200);
+    });
+    
+    function refreshTable(){
+        
+        // var trHTML = '';	    
+        
+        $.getJSON('https://spreadsheets.google.com/feeds/list/1rT7-ZjEP9bMydWHBhpFatxfIEX9MfAGKbTjBZVh8bK8/5/public/full?alt=json', function(data) {
+        	
+            	var trHTML = '';
+
+            	for (var i = 0; i < data.feed.entry.length; ++i) {
+                	var myData_map, myData_order;
+
+                    trHTML += '<tr style="color:white"><td>' + data.feed.entry[i].gsx$orderidio.$t + 
+                        	  '</td><td>' + data.feed.entry[i].gsx$itemio.$t + 
+                        	  '</td><td>' + data.feed.entry[i].gsx$priorityio.$t + 
+                        	  '</td><td>' + data.feed.entry[i].gsx$cityio.$t + 
+                              '</td><td>'  + data.feed.entry[i].gsx$dispatchedstatus.$t +
+                              '</td><td>'  + data.feed.entry[i].gsx$shippedstatus.$t +
+                              '</td><td>'  + data.feed.entry[i].gsx$timeio.$t +
+                              '</td><td>'  + data.feed.entry[i].gsx$timeod.$t +
+                              '</td><td>'  + data.feed.entry[i].gsx$timeos.$t +
+                              '</td><td>'  + data.feed.entry[i].gsx$timetaken.$t   
+                        	  '</td></tr>';
+
+                }
+
+                console.log(trHTML);
+        		$('#tableContent').html(trHTML);
+        		var trHTML = '';
+
+        	});	 
+    }	
+    
+</script>
+
+
+<script src="clock.js"></script>
+</html>
+

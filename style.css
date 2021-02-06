@@ -8,7 +8,7 @@ body {background-color:#333;}
   position: absolute;
   top: 0px;
   left: 0px;
-  color:#fff;
+  color:rgb(255, 255, 255);
   border-left: 3px solid #ed1f24;
   height: 80px;
   padding: 10px;
@@ -80,7 +80,7 @@ li {
   font-size: 25px;
   width: 8em; 
   height: 2em;
-  color: rgb(248, 245, 239);
+  color: #ed1f24;
   border-left: 0.08em solid;
   position: relative;
   margin-top: 0.8em;
@@ -122,6 +122,7 @@ li span {
   align-items: center;
   justify-content: center;
   font-family: sans-serif;
+  color: #008080;
   text-transform: capitalize;
   transform: translateX(calc(-0.15em * 3 - 0.08em * 2));
   transition: 0.3s;
@@ -131,3 +132,6 @@ li:hover span {
   transform: translateX(0.15em);
 }
 
+#c {
+    color:#333;
+}
