@@ -51,7 +51,7 @@
       for (var i = 0; i < data.feed.entry.length; ++i) {
         var json_data = {
           "OderID" : data.feed.entry[i].gsx$orderidio.$t,
-          "TimeTaken": parseFloat(data.feed.entry[i].gsx$timetaken.$t),
+          "TimeTaken": parseFloat(data.feed.entry[i].gsx$timetakenscale.$t),
           "Priority": data.feed.entry[i].gsx$priorityio.$t
           };
           jsonDataObject.push(json_data);
