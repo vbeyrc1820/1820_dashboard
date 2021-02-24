@@ -1,0 +1,640 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>API documentation &#8212; Task5 v0.00 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ROS Communication files" href="ROS Communication files.html" />
+    <link rel="prev" title="Implementation- what we did" href="Implementation.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ROS Communication files.html" title="ROS Communication files"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Implementation.html" title="Implementation- what we did"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Task5 v0.00 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="api-documentation">
+<h1>API documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="actionclient">
+<h2>1. Actionclient:<a class="headerlink" href="#actionclient" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>class Actionclient:</dt>
+<dd><p class="first">“”” Class definition for Action Client, it sends
+goals to perform pub-sub MQTT tasks to the Action Server.
+“””</p>
+<dl class="last docutils">
+<dt>def __init__(self):</dt>
+<dd><p class="first">“””Constuctor for Actionclient.
+Attributes:</p>
+<blockquote>
+<div>_ac : Initialize Action Client.
+_goal_handles : Dictionary to store all the goal handles.
+param_config_iot : Read and Store IoT Configuration data from Parameter Server.
+_config_mqtt_pub_topic : Stores the publisher topic from the parameter file.
+message :</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def feedback_callback(self, feedback):</dt>
+<dd><p class="first">“”” Sends Feedback regarding the status of goal.
+Args:</p>
+<blockquote>
+<div>feedback : The feedback on the goal status that has to be logged.</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def on_transition(self, goal_handle):</dt>
+<dd><p class="first">“””This function will be called when there is a change of state
+in the Action Client State Machine. n
+Args :</p>
+<blockquote>
+<div>goal_handle : Contains goal information which includes protocol, mode, topic and message</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def send_goal(self, arg_protocol, arg_mode, arg_topic, arg_message):</dt>
+<dd><p class="first">“””This function is used to send Goals to Action Server.
+Args:</p>
+<blockquote>
+<div>arg_protocol : The protocol of the ntwork has to use.
+arg_mode : Mode, Publisher or Subscriber.
+arg_topic : Topic on which we need to publish or subscibe from.
+arg_message : The data that has to be transmitted.</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>Returns a goal handle which contains goal information which includes protocol, mode, topic and message to be used by Action Server.</dd>
+</dl>
+<p class="last">“””</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="node-action-server-ros-iot-bridge">
+<h2>2. node_action_server_ros_iot_bridge<a class="headerlink" href="#node-action-server-ros-iot-bridge" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>class IotRosBridgeActionServer:</dt>
+<dd><p class="first">“”” Class definition of IoTRosBridgeActionServer an action server acts as a
+bridge between ROS and MQTT,
+takes in goals to publish/subscribe to</p>
+<blockquote>
+<div>MQTT topics.</div></blockquote>
+<p>“””
+def __init__(self):</p>
+<blockquote>
+<div><p>“”” Constructor for IotRosBridgeActionServer.
+Attributes:</p>
+<blockquote>
+<div>_as : Initialize the action server.
+param_config_iot : Read and Store IoT Configuration data from Parameter Server
+_config_mqtt : Stores the url, port, sub_topic, pub_topic and
+Qos from the parameter file.
+_orderid : Stores order id.
+ret : Subscribe to MQTT Topic (/eyrc/vb/Aradmama/orders)
+which is defined in ‘config_iot_ros.yaml’.
+ac : Object to initialize Actionclient() methods.</div></blockquote>
+<p>“””</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt>def on_goal(self, goal_handle):</dt>
+<dd><p class="first">“””This function will be called when Action Server receives a Goal. n
+Args:</p>
+<blockquote>
+<div>goal_handle : Contains goal information which includes protocol, mode, topic and message</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def process_goal(self, goal_handle):</dt>
+<dd><p class="first">“”” This function is called is a separate thread to process Goal. n
+Args:</p>
+<blockquote>
+<div>goal_handle : Contains goal information which includes protocol, mode, topic and message</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def google_sheet(self, goal):</dt>
+<dd><p class="first">“”” Send GET request to populate entries on Google sheets with goal messages. n
+Args:</p>
+<blockquote>
+<div>goal : Contains the data to be input to the sheets separated by delimiter.</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def on_cancel(self, goal_handle):</dt>
+<dd><p class="first">“””This function will be called when Goal Cancel request is send to the Action Server.n
+Args:</p>
+<blockquote>
+<div>goal_handle : Contains goal information which includes protocol, mode, topic and message</div></blockquote>
+<p class="last">“””</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="node-belt-control">
+<h2>3. node_belt_control<a class="headerlink" href="#node-belt-control" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>class BeltControl:</dt>
+<dd><p class="first">“””Class definition for controlling Belt power.
+“””</p>
+<dl class="last docutils">
+<dt>def __init__(self):</dt>
+<dd><p class="first">“””Constructor for BeltControln
+Attributes:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>_conveyor_belt_power <span class="classifier-delimiter">:</span> <span class="classifier">Handle to the boltcontrol service (/eyrc/vb/conveyor/set_power)</span></dt>
+<dd>for invoking calls.</dd>
+</dl>
+<p>_box_name : None type namespace to store box names.
+_box_pose : Representation of pose in free space, composed of position and orientation.
+_position_publisher : Registers to the topic /box_position to publish msg robot_goal
+_rotation_matrix : Contains a numpy array of the Rotation matix.
+_power : Name space for belt power.
+_object_list : List object for a list of Package model names in order.
+_temp : Temporary variable
+_box_delivered : List object for a list of Packages delivered.
+_pkg_no : Object created to store the number of packages encountered.
+_colour_map : Dictionary object created to hold package model names as keys and colours as values</p>
+</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def camera1_image(self, message):</dt>
+<dd><dl class="first docutils">
+<dt>“”” Callback function to process messages coming from  Camera 1</dt>
+<dd>Initializes the dictionary _colour_map</dd>
+<dt>Args:</dt>
+<dd>message : message on the topic</dd>
+<dt>Usage:</dt>
+<dd>colour : Stores the incoming list from the message</dd>
+</dl>
+<p class="last">“””</p>
+</dd>
+<dt>def camera_output(self, message):</dt>
+<dd><p class="first">“”” Callback Function to process messages from Logical Camera 2
+Args:</p>
+<blockquote>
+<div>message : message on the topic</div></blockquote>
+<dl class="docutils">
+<dt>Usage:</dt>
+<dd><p class="first">t : Length of the list of models in the message
+position : numpy array of the box position
+result :  numpy array to store the dot product of rotation matrix</p>
+<blockquote class="last">
+<div>with positon of box</div></blockquote>
+</dd>
+</dl>
+<p class="last">“””</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="node-camera1">
+<h2>4. node_camera1<a class="headerlink" href="#node-camera1" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>class Camera1:</dt>
+<dd><p class="first">“””Class definition to for Camera 1.
+“””
+# constructor</p>
+<dl class="last docutils">
+<dt>def __init__(self):</dt>
+<dd><p class="first">“”” Constructor for the Camera1
+Attributes:</p>
+<blockquote class="last">
+<div>bridge : An instancve for using conversion between ROS and openCV images.
+image_sub : Suscribing from RGB camera and getting raw image.
+_dt : Getting date and time.
+_colour : array to store colour of packages when required.
+run : for publishing once to google sheet.
+_colour_publisher : publishing color array.
+ac = An instance for the use of imported Actionclient.
+“””</div></blockquote>
+</dd>
+<dt>def callback(self, data):</dt>
+<dd><p class="first">“”” Callback function for Camera1
+Processes Image and returns a sorted array of colours of packages</p>
+<dl class="docutils">
+<dt>Args :</dt>
+<dd>data: Contains the message array</dd>
+<dt>Usage:</dt>
+<dd>cv_image : Converted image.
+cv2.threshold : Converting (Processing) opencv bgr
+8bit image to greyscale and then applying threshold function
+rect, thresh1 : for outline on QR detection.
+decode : Decoding all barcode from processed image.
+cv.2 rectangle : bounding box surrounding the barcode on the image
+barcode.data.decode(“utf-8”) : converting the barcode data to utf-8
+encoding for our understanding.
+cv2.putText : print the barcode type and data to the terminal, no need makes process slow.
+Converting ROS image to bgr 8bit open CV image.</dd>
+</dl>
+<p class="last">“””</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="node-ur-1-control">
+<h2>5. node_ur_1_control<a class="headerlink" href="#node-ur-1-control" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>class Ur5_1():</dt>
+<dd><blockquote class="first">
+<div><p>‘’’ Class definition to control UR5_1 robot arm
+‘’’</p>
+<dl class="docutils">
+<dt>def __init__(self):</dt>
+<dd><p class="first">‘’’ Constructor for the Ur5_2Control
+Attributes:</p>
+<blockquote>
+<div><p>_init_node : Initializes the ros node
+_robot_ns : Namespace of the robot
+_planning_group : Stores the string “manipulator”
+_commander : Initializes the moveit_commander
+_robot : Robot Commander object, provides information of the kinematic model and</p>
+<blockquote>
+<div>the current joint states of the robot.</div></blockquote>
+<dl class="docutils">
+<dt>_scene <span class="classifier-delimiter">:</span> <span class="classifier">PlanningSceneInterface, a remote interface for getting, setting, and</span></dt>
+<dd>updating the robot’s internal understanding of the surrounding world.</dd>
+</dl>
+<p>_group: MoveGroupCommander, interface for the robot planning_group, “manipulator” in this case.
+_display_trajectory_publisher : ROS Publisher to display trajectories in Rviz.
+_execute_trajectory_client : initializes a Simple Action Client to execute trajectories
+_planning_frame : Get the frame of reference in which planning is done.
+_eef_link : end effector link object
+_group_names: object for group names
+_vacuum_srv : An instance for the VaccumGripper service.
+_computed_plan : object as empty string to store the computed path
+_current_state : object that gets the current state of the robot
+_pkg_path : Uses RosPack (ROS package management tool) to get the path fot the saved config files.
+_file_path : Object to store file path
+_ordered_package : Object  created to store ordered package model number
+_object_list : List object containing package model names
+_colour_list : List object created to contain all sorted package colours
+_i : An object for a temporary variable
+_ordered_package_colour : Object created to store the colour of the package ordered
+ac = An instance for the use of imported Actionclient.</p>
+</div></blockquote>
+<p class="last">‘’’</p>
+</dd>
+<dt>def camera1_image(self, message):</dt>
+<dd><p class="first">‘’’Callback function for subscriber of the topic /camera1/image</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Args:</dt>
+<dd>message: The message that is sent on the topic</dd>
+<dt>Usage:</dt>
+<dd>Appends the sorted list of colours into the _colour_list object
+_i : Temporary variable that ensures the colour array only gets appended once
+colour : variable to store the list in the message</dd>
+</dl>
+</div></blockquote>
+<p class="last">‘’’</p>
+</dd>
+<dt>def add_box(self):</dt>
+<dd><p class="first">‘’’ Adds box to the Rviz planning scene.n
+Usage:</p>
+<blockquote>
+<div><p>box_pose : uses PoseStamp() to give a Pose with reference coordinate frame and timestamp.
+box_pose.header .frame_id: sets the frame of reference to “world”
+box_pose.pose.position : gives the (x,y,z) position the box to be added.
+_box_name : defines the name of the box added.
+_scene.add_box() : Takes in _box_name an box_pose along with the size as</p>
+<blockquote>
+<div>input for adding box to the planning scene.</div></blockquote>
+</div></blockquote>
+<p class="last">‘’’</p>
+</dd>
+<dt>def attach_box(self):</dt>
+<dd><p class="first">‘’’Attches the object to the end effector link.n
+Usage:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>touch_links <span class="classifier-delimiter">:</span> <span class="classifier">Gets the links that make up a group, with no group name</span></dt>
+<dd>specified all the links in the robot model are returned.</dd>
+<dt>_scene.attach_box <span class="classifier-delimiter">:</span> <span class="classifier">Attaches the box to the end effector link,</span></dt>
+<dd>this ensures that the object is considered in the collision matrix.</dd>
+</dl>
+<p>_vacuum_result : Gives the flag (bool) to activate the vacuumGripper.</p>
+</div></blockquote>
+<p class="last">‘’’</p>
+</dd>
+<dt>def detach_box(self):</dt>
+<dd><p class="first">‘’’Detaches the box from the end effector of the robot in thr planning scene.n
+Usage:</p>
+<blockquote>
+<div>_scene.remove_attached_object() : Passes in the eef link name and the name of the box object to be detached.
+vacuumGripper srv is set (False) to detach.</div></blockquote>
+<p class="last">‘’’</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="last docutils">
+<dt>def remove_box(self):</dt>
+<dd><blockquote class="first">
+<div><blockquote>
+<div><p>‘’’Deletes the object from the planning scene.n
+Usage:</p>
+<blockquote>
+<div>_scene.remove_world_object() : Takes in the box_name argument to delete the box from the planing scene.</div></blockquote>
+<p>‘’’</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>def moveit_play_planned_path_from_file(self, arg_file_path, arg_file_name):</dt>
+<dd><p class="first">‘’’Plays the saved trajectories from the config files.n
+Args:</p>
+<blockquote>
+<div>arg_file_path : The path to the .yaml files containing the saved trajectories.
+arg_file_name : Name of the file of a specific trajectory.</div></blockquote>
+<p class="last">‘’’</p>
+</dd>
+<dt>def moveit_hard_play_planned_path_from_file(</dt>
+<dd><blockquote class="first">
+<div>self, arg_file_path, arg_file_name, arg_max_attempts):</div></blockquote>
+<p>‘’’Makes multiple attempts to plan and play the saved trajectories.n
+Args:</p>
+<blockquote>
+<div>arg_file_path : The path to the .yaml files containing the saved trajectories.
+arg_file_name : Name of the file of a specific trajectory.
+arg_max_attempts : Maximum number of attempts.</div></blockquote>
+<p class="last">‘’’</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="last docutils">
+<dt>def __del__(self):</dt>
+<dd><blockquote class="first">
+<div>‘’’Destructor to the Ur5_2Control class.
+‘’’</div></blockquote>
+<dl class="last docutils">
+<dt>def ur5_control(self, orders, order_details):</dt>
+<dd><p class="first">‘’’ Function to control ur5_1</p>
+<dl class="docutils">
+<dt>Args :</dt>
+<dd>orders : Nested list of the orders sorted based on PRIORITY [[COLOUR,PRIOIRITY]]
+order_details : Nested sorted list of the details of orders</dd>
+<dt>Usage :</dt>
+<dd><p class="first">This function recognises which package is to be picked according to the order
+and executes the order. It also resets the _object_list and _colour_list by
+removing details of the dispatched package,sends goal to action server to be updated
+on the google sheet.</p>
+<p class="last">ind :  stores the index of the ordered package in the list
+goal_list : Stores the goal to be sent to RosIOT bridge as list items
+orders_dispatched : stores the parameter list order_shipping_details
+dispatchtime : variable to store the datetime
+goal : a string that contains comma separated values of the elements in the goal_list
+ac.send_goal : sends the goal to the action server</p>
+</dd>
+</dl>
+<p class="last">‘’’</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="node-ur5-2-control">
+<h2>6. node_ur5_2_control<a class="headerlink" href="#node-ur5-2-control" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>class Ur5_2Control:</dt>
+<dd><p class="first">“””  Class definition to control UR5_2 robot arm.</p>
+<p>“””</p>
+<p># Constructor
+def __init__(self):</p>
+<blockquote>
+<div><p>“”” Constructor for the Ur5_2Control
+Attributes:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>_robot <span class="classifier-delimiter">:</span> <span class="classifier">Robot Commander object, provides information of the kinematic model</span></dt>
+<dd>and the current joint states of the robot.</dd>
+<dt>_scene <span class="classifier-delimiter">:</span> <span class="classifier">PlanningSceneInterface, a remote interface for getting, setting,</span></dt>
+<dd>and updating the robot’s internal understanding of the surrounding world.</dd>
+</dl>
+<p>_group: MoveGroupCommander, interface for the robot planning_group, “manipulator” in this case.
+_display_trajectory_publisher : ROS Publisher to display trajectories in Rviz.
+_planning_frame : Get the frame of reference in which planning is done.
+_pkg_path : Uses RosPack (ROS package management tool) to get the path fot the saved config files.
+_srv : An instance for the VaccumGripper service.
+_box_name : An instance for box name as a str.
+_box_colour : An instance for box colour as a str.
+_curr_state : Stores the current state of the robot.
+_home_pose : A list of joint angles for the home pose of the ur5_2 robot.
+_red_bin : A list of joint angles defining the drop pose for the red bin.
+_yellow_bin : A list of joint angles defining the drop pose for the yellow bin.
+_green_bin : A list of joint angles defining the drop pose for the green bin.
+_bin_dict : A dictionary with &lt;key,value&gt; pair of the colors and their drop joint angles.
+_home_to_bin : A dictionary with &lt;key, valuse&gt; pair of the colors and their .yaml</p>
+<blockquote>
+<div>files containing the saved trajectories, from home to bin.</div></blockquote>
+<dl class="docutils">
+<dt>_bin_to_home <span class="classifier-delimiter">:</span> <span class="classifier">A dictionary with &lt;key, valuse&gt; pair of the colors and their .yaml</span></dt>
+<dd>files containing the saved trajectories, from bin to home.</dd>
+</dl>
+<p>_pose :  Representation of pose in free space, composed of position and orientation.
+ac = An instance for the use of imported Actionclient.</p>
+</div></blockquote>
+<p>“””</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt>def moveit_play_planned_path_from_file(self, arg_file_path, arg_file_name):</dt>
+<dd><p class="first">“”” Plays the saved trajectories from the config files.n
+Args:</p>
+<blockquote>
+<div>arg_file_path : The path to the .yaml files containing the saved trajectories.
+arg_file_name : Name of the file of a specific trajectory.</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def moveit_hard_play_planned_path_from_file(</dt>
+<dd><blockquote class="first">
+<div>self, arg_file_path, arg_file_name, arg_max_attempts):</div></blockquote>
+<p>“”” Makes multiple attempts to plan and play the saved trajectories.n
+Args:</p>
+<blockquote>
+<div>arg_file_path : The path to the .yaml files containing the saved trajectories.
+arg_file_name : Name of the file of a specific trajectory.
+arg_max_attempts : Maximum number of attempts.</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def box_position_callback(self, message):</dt>
+<dd><p class="first">“””Callback for the ‘box_position’ topic subscription.n
+Args:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>message <span class="classifier-delimiter">:</span> <span class="classifier">the robot_goal message contains the Goal(int32), colour(str)</span></dt>
+<dd>and the pose (geometry_msgs/Pose) of the Packages.</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>Usage:</dt>
+<dd><p class="first">_colour : stores the box colour information.
+_pose : takes the position of the box form the message.
+orders_shipped : uses rospy.get_param to get the order_shipping_details using ROS parameter.
+add_box() : Adds the box in planning scene.
+attach_box() : Attaches the box to the eef in the planning scene.
+moveit_hard_play_planned_path_from_file() : Plays the saved trajectories</p>
+<blockquote>
+<div>from the saved files with a specified number of attempts.</div></blockquote>
+<p class="last">detach_box() : Detaches the box from the end effector link.
+remove_box() : Deletes the box from the planning scene.
+ac.send_goal() : Uses action client to send Date time information.</p>
+</dd>
+</dl>
+<p class="last">“””</p>
+</dd>
+<dt>def add_box(self):</dt>
+<dd><p class="first">“””Adds box to the Rviz planning scene.n
+Usage:</p>
+<blockquote>
+<div><p>box_pose : uses PoseStamp() to give a Pose with reference coordinate frame and timestamp.
+box_pose.header .frame_id: sets the frame of reference to “world”
+box_pose.pose.position : gives the (x,y,z) position the box to be added.
+_box_name : defines the name of the box added.
+_scene.add_box() : Takes in _box_name an box_pose along with the size as</p>
+<blockquote>
+<div>input for adding box to the planning scene.</div></blockquote>
+</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def attach_box(self):</dt>
+<dd><p class="first">“””Attches the object to the end effector link.n
+Usage:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>touch_links <span class="classifier-delimiter">:</span> <span class="classifier">Gets the links that make up a group, with no group</span></dt>
+<dd>name specified all the links in the robot model are returned.</dd>
+<dt>_scene.attach_box <span class="classifier-delimiter">:</span> <span class="classifier">Attaches the box to the end effector link, this</span></dt>
+<dd>ensures that the object is considered in the collision matrix.</dd>
+</dl>
+<p>_vacuum_result : Gives the flag (bool) to activate the vacuumGripper.</p>
+</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def detach_box(self):</dt>
+<dd><p class="first">“””Detaches the box from the end effector of the robot in thr planning scene.n
+Usage:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>_scene.remove_attached_object() <span class="classifier-delimiter">:</span> <span class="classifier">Passes in the eef link name and the name</span></dt>
+<dd>of the box object to be detached.</dd>
+</dl>
+<p>vacuumGripper srv is set (False) to detach.</p>
+</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def remove_box(self):</dt>
+<dd><p class="first">“””Deletes the object from the planning scene.n
+Usage:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>_scene.remove_world_object() <span class="classifier-delimiter">:</span> <span class="classifier">Takes in the box_name argument to delete</span></dt>
+<dd>the box from the planing scene.</dd>
+</dl>
+</div></blockquote>
+<p class="last">“””</p>
+</dd>
+<dt>def __del__(self):</dt>
+<dd>“””Destructor to the Ur5_2Control class.
+“””</dd>
+</dl>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">API documentation</a><ul>
+<li><a class="reference internal" href="#actionclient">1. Actionclient:</a></li>
+<li><a class="reference internal" href="#node-action-server-ros-iot-bridge">2. node_action_server_ros_iot_bridge</a></li>
+<li><a class="reference internal" href="#node-belt-control">3. node_belt_control</a></li>
+<li><a class="reference internal" href="#node-camera1">4. node_camera1</a></li>
+<li><a class="reference internal" href="#node-ur-1-control">5. node_ur_1_control</a></li>
+<li><a class="reference internal" href="#node-ur5-2-control">6. node_ur5_2_control</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Implementation.html"
+                        title="previous chapter">Implementation-  what we did</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ROS Communication files.html"
+                        title="next chapter">ROS Communication files</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Refrences.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ROS Communication files.html" title="ROS Communication files"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Implementation.html" title="Implementation- what we did"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Task5 v0.00 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Adithya Jere, Aryaman Patel, Madhav Rawal, Maan Gajjar.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>
