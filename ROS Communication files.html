@@ -1,0 +1,175 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ROS Communication files &#8212; Task5 v0.00 documentation</title>
+    <link rel="stylesheet" href="classic.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="documentation_options.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="API documentation" href="Refrences.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Refrences.html" title="API documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Task5 v0.00 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ros-communication-files">
+<h1>ROS Communication files<a class="headerlink" href="#ros-communication-files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="msgrosiot-action">
+<h2>msgRosIot.action<a class="headerlink" href="#msgrosiot-action" title="Permalink to this headline">¶</a></h2>
+<p>Description : An action message file used by ROS Actions for communication. It has goal, result and feedback messages.</p>
+<p>Topic : /action_iot_ros</p>
+<p>#goal
+protocol (string) : Type of network protocol used (http or mqtt)
+mode (string) : Can be publisher (pub), subscriber (sub) or NA.
+topic (string) : Topic name onto which it publishes/subscribes to (can be NA).
+message (string) : The information that has to be carried.</p>
+<p>#result
+flag_success (bool) : Flags success or faliure using Boolean if the goal is achieved or failed.</p>
+<p>#feedback
+percentage_complete (int8) : Feedback of the processing goal.</p>
+</div>
+<div class="section" id="cameraimage-msg">
+<h2>CameraImage.msg<a class="headerlink" href="#cameraimage-msg" title="Permalink to this headline">¶</a></h2>
+<p>Description : Sends a list of colours from the node_camera1.</p>
+<p>Topic : /camera1/image</p>
+<p>ColourList (string[]) : A list of strings containing the colours recognised in order.</p>
+</div>
+<div class="section" id="logicalcameraimage-msg">
+<h2>LogicalCameraImage.msg<a class="headerlink" href="#logicalcameraimage-msg" title="Permalink to this headline">¶</a></h2>
+<p>Description : Sends the Pose of the object and the model names detected.</p>
+<p>Topic : /eyrc/vb/logical_camera_2</p>
+<p>models (Model[]) : A list of models detected contains type (string) and pose (geometry_msgs/Pose)
+pose (geometry_msgs/Pose) : Pose of the object (poses in the frame of the camera)</p>
+</div>
+<div class="section" id="robot-goal-msg">
+<h2>robot_goal.msg<a class="headerlink" href="#robot-goal-msg" title="Permalink to this headline">¶</a></h2>
+<p>Description : Sends the Package information to the Ur5_2</p>
+<p>Topic : box_position</p>
+<p>Goal (int32) : The packsge number.
+colour (string) : The colour of the package
+pose (geometry_msgs/Pose) : The pose of the Package.</p>
+</div>
+<div class="section" id="orders-yaml">
+<h2>Orders.yaml<a class="headerlink" href="#orders-yaml" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Description <span class="classifier-delimiter">:</span> <span class="classifier">Contains parameter lists like order_list, order_details,order_shipping_details</span></dt>
+<dd>which contain the details of the orders incoming, left to process and the ones in process</dd>
+</dl>
+<p>order_list: Nested list containing elements like : [COLOUR,PRIORITY]
+order_details : Nested list containing elements like : [COLOUR,PRIORITY,ORDERID,CITY,ITEM,PRIORITY,QUANTITY,COST]
+orders_shipping_details : Nested list containing elements that are deleted from order_details.</p>
+</div>
+<div class="section" id="config-pyiot-yaml">
+<h2>config_pyiot.yaml<a class="headerlink" href="#config-pyiot-yaml" title="Permalink to this headline">¶</a></h2>
+<p>Description : Contains the server, subscription topic and publisher topic details for pyiot module.</p>
+</div>
+<div class="section" id="conveyorbeltcontrol-srv">
+<h2>ConveyorBeltControl.srv<a class="headerlink" href="#conveyorbeltcontrol-srv" title="Permalink to this headline">¶</a></h2>
+<p>Description : Request/ reply structure to control the power of conveyor belt.</p>
+<p>Service : /eyrc/vb/conveyor/set_power</p>
+<p>#request
+power (float64) : Takes in the power value the conveyor has to be set on.</p>
+<p>#reply
+bool (success)  : Uses Boolean to flag success.</p>
+</div>
+<div class="section" id="vacuumgripper">
+<h2>vacuumGripper<a class="headerlink" href="#vacuumgripper" title="Permalink to this headline">¶</a></h2>
+<p>Description :
+#request
+activate_vacuum_gripper(bool) : Takes the True/False value to activate/deactivate gripper.</p>
+<p>#reply
+result(bool) : Uses Boolean to flag success.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ROS Communication files</a><ul>
+<li><a class="reference internal" href="#msgrosiot-action">msgRosIot.action</a></li>
+<li><a class="reference internal" href="#cameraimage-msg">CameraImage.msg</a></li>
+<li><a class="reference internal" href="#logicalcameraimage-msg">LogicalCameraImage.msg</a></li>
+<li><a class="reference internal" href="#robot-goal-msg">robot_goal.msg</a></li>
+<li><a class="reference internal" href="#orders-yaml">Orders.yaml</a></li>
+<li><a class="reference internal" href="#config-pyiot-yaml">config_pyiot.yaml</a></li>
+<li><a class="reference internal" href="#conveyorbeltcontrol-srv">ConveyorBeltControl.srv</a></li>
+<li><a class="reference internal" href="#vacuumgripper">vacuumGripper</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Refrences.html"
+                        title="previous chapter">API documentation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ROS Communication files.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Refrences.html" title="API documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Task5 v0.00 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Adithya Jere, Aryaman Patel, Madhav Rawal, Maan Gajjar.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>
