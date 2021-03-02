@@ -60,94 +60,53 @@
     });
 
     function refreshMap(){
-        var container = L.DomUtil.get('map');
+        const container = L.DomUtil.get('map');
+        const redIcon = new L.Icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',iconSize: [25, 41],iconAnchor: [12, 41],popupAnchor: [1, -34],shadowSize: [41, 41]});
+
+
+        const greenIcon = new L.Icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',iconSize: [25, 41],iconAnchor: [12, 41],popupAnchor: [1, -34],shadowSize: [41, 41]});
+        
+        const yellowIcon = new L.Icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',iconSize: [25, 41],iconAnchor: [12, 41],popupAnchor: [1, -34],shadowSize: [41, 41]});
 
       	if(container != null){container._leaflet_id = null;}
          
-        var map = L.map('map').setView([20.5937, 78.9629], 4);
-        var jsonDataObject =[];
-        var jsonDataObject_1 =[];
+        const map = L.map('map').setView([20.5937, 78.9629], 4);
+        const jsonDataObject =[];
+        const jsonDataObject_1 =[];
+
+	let marker;
+	let marker_g;
+	let marker_y;
 
         $.getJSON('https://spreadsheets.google.com/feeds/list/1rT7-ZjEP9bMydWHBhpFatxfIEX9MfAGKbTjBZVh8bK8/5/public/full?alt=json', function(data) {
-        for (var i = 0; i < data.feed.entry.length; ++i) {
+            for (let i = 0; i < data.feed.entry.length; ++i) {
 
-            var json_data = {"City": data.feed.entry[i].gsx$cityio.$t,"OderID" : data.feed.entry[i].gsx$orderidio.$t,"Dispatched" : data.feed.entry[i].gsx$dispatchedstatus.$t,"Shipped" : data.feed.entry[i].gsx$shippedstatus.$t,"Item" : data.feed.entry[i].gsx$itemio.$t,"Latitude": parseFloat(data.feed.entry[i].gsx$latitudeio.$t),"Longitude": parseFloat(data.feed.entry[i].gsx$longitudeio.$t),"Latitude_od": parseFloat(data.feed.entry[i].gsx$latitudeod.$t),"Longitude_od": parseFloat(data.feed.entry[i].gsx$longitudeod.$t),"Latitude_os": parseFloat(data.feed.entry[i].gsx$latitudeos.$t),"Longitude_os": parseFloat(data.feed.entry[i].gsx$longitudeos.$t)};
-            jsonDataObject.push(json_data);
-            
-            
-            
-            var redIcon = new L.Icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',iconSize: [25, 41],iconAnchor: [12, 41],popupAnchor: [1, -34],shadowSize: [41, 41]});
+                const json_data = {"City": data.feed.entry[i].gsx$cityio.$t,"OderID" : data.feed.entry[i].gsx$orderidio.$t,"Dispatched" : data.feed.entry[i].gsx$dispatchedstatus.$t,"Shipped" : data.feed.entry[i].gsx$shippedstatus.$t,"Item" : data.feed.entry[i].gsx$itemio.$t,"Latitude": parseFloat(data.feed.entry[i].gsx$latitudeio.$t),"Longitude": parseFloat(data.feed.entry[i].gsx$longitudeio.$t),"Latitude_od": parseFloat(data.feed.entry[i].gsx$latitudeod.$t),"Longitude_od": parseFloat(data.feed.entry[i].gsx$longitudeod.$t),"Latitude_os": parseFloat(data.feed.entry[i].gsx$latitudeos.$t),"Longitude_os": parseFloat(data.feed.entry[i].gsx$longitudeos.$t)};
+                jsonDataObject.push(json_data);
+            };
 
-
-            var greenIcon = new L.Icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',iconSize: [25, 41],iconAnchor: [12, 41],popupAnchor: [1, -34],shadowSize: [41, 41]});
-            
-            var yellowIcon = new L.Icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',iconSize: [25, 41],iconAnchor: [12, 41],popupAnchor: [1, -34],shadowSize: [41, 41]});
-            
-            for (var j = 0; j < jsonDataObject.length; j++) {
-                
-                var marker = new L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude), parseFloat(jsonDataObject[j].Longitude)), {icon: redIcon});
-                //map.addLayer(marker);
-                
-                
-                //var marker_y = new L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude_od), parseFloat(jsonDataObject[j].Longitude_od)), {icon: yellowIcon});
-                
-                //var marker_g = L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude_os), parseFloat(jsonDataObject[j].Longitude_os)), {icon: greenIcon});
-                
-                //marker.bindPopup(jsonDataObject[j].City, {autoClose: false});
-                map.addLayer(marker);
-                
-                //marker.on('click', onClick_Marker)
-                // Attach the corresponding JSON data to your marker:
-                //marker.myJsonData =jsonDataObject[j];
         
-                //function onClick_Marker(e) {var marker = e.target;popup = L.popup().setLatLng(marker.getLatLng()).setContent("Order ID: " + marker.myJsonData.OderID + " || Item: " + marker.myJsonData.Item + " || Dispatched: " + marker.myJsonData.Dispatched + " || Shipped: " + marker.myJsonData.Shipped).openOn(map);}
-
+	    for (var j = 0; j < jsonDataObject.length; j++) {
+		if(jsonDataObject[j]["Dispatched"] == "" && jsonDataObject[j]["Shipped"] == "") {
+                    marker = new L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude), parseFloat(jsonDataObject[j].Longitude)), {icon: redIcon});
+            	    var r = "NO"
+                    var n = "YES"
+                    map.addLayer(marker);
+                    marker.bindPopup(jsonDataObject[j].City + '</br>' + '<b> Oder ID:</b>' + jsonDataObject[j].OderID + '<b> || Dispatched:</b>' + '<b></b>' + r + '<b> || Shipped:</b>' + '<b></b>' + r,{autoClose: false});
+		} else if(jsonDataObject[j]["Dispatched"] == "YES" && jsonDataObject[j]["Shipped"] == "") {
+                    marker_y = new L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude), parseFloat(jsonDataObject[j].Longitude)), {icon: yellowIcon});
+            	    var r = "NO"
+                    var n = "YES"
+                    map.addLayer(marker_y);
+                    marker_y.bindPopup(jsonDataObject[j].City + '</br>' + '<b> Oder ID:</b>' + jsonDataObject[j].OderID + '<b> || Dispatched:</b>' + '<b></b>' + n + '<b> || Shipped:</b>' + '<b></b>' + r,{autoClose: false});
+		} else {
+                    marker_g = new L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude), parseFloat(jsonDataObject[j].Longitude)), {icon: greenIcon});
+            	    var r = "NO"
+                    var n = "YES"
+                    map.addLayer(marker_g);
+                    marker_g.bindPopup(jsonDataObject[j].City + '</br>' + '<b> Oder ID:</b>' + jsonDataObject[j].OderID + '<b> || Dispatched:</b>' + '<b></b>' + n + '<b> || Shipped:</b>' + '<b></b>' + n,{autoClose: false});
+		}
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map)
-
-                
-                }
-            }
-        });
-
-
-        $.getJSON('https://spreadsheets.google.com/feeds/list/1rT7-ZjEP9bMydWHBhpFatxfIEX9MfAGKbTjBZVh8bK8/5/public/full?alt=json', function(data_1) {
-        for (var h = 0; h < data_1.feed.entry.length; ++h) {
-
-            var json_data_1 = {"City": data_1.feed.entry[h].gsx$cityio.$t,"OderID" : data_1.feed.entry[h].gsx$orderidio.$t,"Dispatched" : data_1.feed.entry[h].gsx$dispatchedstatus.$t,"Shipped" : data_1.feed.entry[h].gsx$shippedstatus.$t,"Item" : data_1.feed.entry[h].gsx$itemio.$t,"Latitude": parseFloat(data_1.feed.entry[h].gsx$latitudeio.$t),"Longitude": parseFloat(data_1.feed.entry[h].gsx$longitudeio.$t),"Latitude_od": parseFloat(data_1.feed.entry[h].gsx$latitudeod.$t),"Longitude_od": parseFloat(data_1.feed.entry[h].gsx$longitudeod.$t),"Latitude_os": parseFloat(data_1.feed.entry[h].gsx$latitudeos.$t),"Longitude_os": parseFloat(data_1.feed.entry[h].gsx$longitudeos.$t)};
-            jsonDataObject_1.push(json_data_1);
-            
-            
-            
-            var redIcon = new L.Icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',iconSize: [25, 41],iconAnchor: [12, 41],popupAnchor: [1, -34],shadowSize: [41, 41]});
-
-
-            var greenIcon = new L.Icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',iconSize: [25, 41],iconAnchor: [12, 41],popupAnchor: [1, -34],shadowSize: [41, 41]});
-            
-            var yellowIcon = new L.Icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',iconSize: [25, 41],iconAnchor: [12, 41],popupAnchor: [1, -34],shadowSize: [41, 41]});
-            
-            for (var k = 0; k < jsonDataObject_1.length; k++) {
-                
-                //var marker = new L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude), parseFloat(jsonDataObject[j].Longitude)), {icon: redIcon});
-                //map.addLayer(marker);
-                
-                
-                //var marker_y = new L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude_od), parseFloat(jsonDataObject[j].Longitude_od)), {icon: yellowIcon});
-                
-                var marker_g = L.marker(L.latLng(parseFloat(jsonDataObject_1[k].Latitude_os), parseFloat(jsonDataObject_1[k].Longitude_os)), {icon: greenIcon});
-                
-                //marker.bindPopup(jsonDataObject[j].City, {autoClose: false});
-                map.addLayer(marker_g);
-                
-                //marker.on('click', onClick_Marker)
-                // Attach the corresponding JSON data_1 to your marker:
-                //marker.myJsonData =jsonDataObject[j];
-        
-                //function onClick_Marker(e) {var marker = e.target;popup = L.popup().setLatLng(marker.getLatLng()).setContent("Order ID: " + marker.myJsonData.OderID + " || Item: " + marker.myJsonData.Item + " || Dispatched: " + marker.myJsonData.Dispatched + " || Shipped: " + marker.myJsonData.Shipped).openOn(map);}
-
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map)
-
-                
-                }
             }
         });
     }
