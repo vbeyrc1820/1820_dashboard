@@ -92,19 +92,19 @@
             	    var r = "NO"
                     var n = "YES"
                     map.addLayer(marker);
-                    marker.bindPopup(jsonDataObject[j].City + '</br>' + '<b> Oder ID:</b>' + jsonDataObject[j].OderID + '<b> || Dispatched:</b>' + '<b></b>' + r + '<b> || Shipped:</b>' + '<b></b>' + r,{autoClose: false});
+                    marker.bindPopup(jsonDataObject[j].City + '</br>' + '<b> Order ID:</b>' + jsonDataObject[j].OderID + '<b> || Dispatched:</b>' + '<b></b>' + r + '<b> || Shipped:</b>' + '<b></b>' + r,{autoClose: false});
 		} else if(jsonDataObject[j]["Dispatched"] == "YES" && jsonDataObject[j]["Shipped"] == "") {
                     marker_y = new L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude), parseFloat(jsonDataObject[j].Longitude)), {icon: yellowIcon});
             	    var r = "NO"
                     var n = "YES"
                     map.addLayer(marker_y);
-                    marker_y.bindPopup(jsonDataObject[j].City + '</br>' + '<b> Oder ID:</b>' + jsonDataObject[j].OderID + '<b> || Dispatched:</b>' + '<b></b>' + n + '<b> || Shipped:</b>' + '<b></b>' + r,{autoClose: false});
+                    marker_y.bindPopup(jsonDataObject[j].City + '</br>' + '<b> Order ID:</b>' + jsonDataObject[j].OderID + '<b> || Dispatched:</b>' + '<b></b>' + n + '<b> || Shipped:</b>' + '<b></b>' + r,{autoClose: false});
 		} else {
                     marker_g = new L.marker(L.latLng(parseFloat(jsonDataObject[j].Latitude), parseFloat(jsonDataObject[j].Longitude)), {icon: greenIcon});
             	    var r = "NO"
                     var n = "YES"
                     map.addLayer(marker_g);
-                    marker_g.bindPopup(jsonDataObject[j].City + '</br>' + '<b> Oder ID:</b>' + jsonDataObject[j].OderID + '<b> || Dispatched:</b>' + '<b></b>' + n + '<b> || Shipped:</b>' + '<b></b>' + n,{autoClose: false});
+                    marker_g.bindPopup(jsonDataObject[j].City + '</br>' + '<b> Order ID:</b>' + jsonDataObject[j].OderID + '<b> || Dispatched:</b>' + '<b></b>' + n + '<b> || Shipped:</b>' + '<b></b>' + n,{autoClose: false});
 		}
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map)
             }
